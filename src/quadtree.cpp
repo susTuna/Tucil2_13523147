@@ -1,15 +1,15 @@
 #include "quadtree.hpp"
 
-QuadTree::Node::Node(cv::Rect region) : region(region), avgColor(0, 0, 0, 0){
-    for (int i = 0; i < 4 ; ++i){
-        children[i] = nullptr;
-    }
+int QuadTree::Node::nodeCount = 0;
+
+QuadTree::Node::Node(cv::Rect region, int depth = 0) : region(region), avgColor(0, 0, 0, 0), depth(depth){
+    for (int i = 0; i < 4 ; ++i) children[i] = nullptr;
+    ++nodeCount;
 }
 
 QuadTree::Node::~Node(){
-    for (int i = 0; i < 4 ; ++i){
-        delete children[i];
-    }
+    for (int i = 0; i < 4 ; ++i) delete children[i];
+    --nodeCount;
 }
 
 QuadTree::QuadTree() : root(nullptr), minBlockSize(0), varThreshold(0.0), errorMethod(nullptr){}
@@ -35,10 +35,10 @@ void QuadTree::subdivide(Node* node, const cv::Mat& image){
         int halfHeight = node->region.height / 2;
 
         /* Divide */
-        node->children[0] = new Node(cv::Rect(node->region.x, node->region.y, halfWidth, halfHeight));
-        node->children[1] = new Node(cv::Rect(node->region.x + halfWidth, node->region.y, halfWidth, halfHeight));
-        node->children[2] = new Node(cv::Rect(node->region.x, node->region.y + halfHeight, halfWidth, halfHeight));
-        node->children[3] = new Node(cv::Rect(node->region.x + halfWidth, node->region.y + halfHeight, halfWidth, halfHeight));
+        node->children[0] = new Node(cv::Rect(node->region.x, node->region.y, halfWidth, halfHeight), node->depth + 1);
+        node->children[1] = new Node(cv::Rect(node->region.x + halfWidth, node->region.y, halfWidth, halfHeight), node->depth + 1);
+        node->children[2] = new Node(cv::Rect(node->region.x, node->region.y + halfHeight, halfWidth, halfHeight), node->depth + 1);
+        node->children[3] = new Node(cv::Rect(node->region.x + halfWidth, node->region.y + halfHeight, halfWidth, halfHeight), node->depth + 1);
         
         /* Recursion */
         for (int i = 0; i < 4; ++i){
@@ -92,4 +92,13 @@ void QuadTree::reconstructImg(cv::Mat& output){
     if (!root) return;
     output = cv::Mat::zeros(root->region.height, root->region.width, CV_8UC3);
     reconstructNode(root, output);
+}
+
+int QuadTree::getDepth(){
+    if (!root) return 0;
+    return root->depth;
+}
+
+int QuadTree::getNodesCount(){
+    return Node::nodeCount;
 }

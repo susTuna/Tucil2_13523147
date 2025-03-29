@@ -10,8 +10,10 @@ class QuadTree{
             cv::Rect region;
             cv::Scalar avgColor;
             Node* children[4];
+            int depth;
+            static int nodeCount;
 
-            Node(cv::Rect region);
+            Node(cv::Rect region, int depth);
             ~Node();
         };
 
@@ -27,7 +29,9 @@ class QuadTree{
         ~QuadTree();
         void buildTree(const cv::Mat& image, const ErrorMethod* method, double threshold, int minSize);
         void reconstructNode(Node* node, cv::Mat& image);
-        void reconstructImg(cv::Mat& output); 
+        void reconstructImg(cv::Mat& output);
+        int getDepth();
+        int getNodesCount();
 };
 
 #endif //QUADTREE_HPP
