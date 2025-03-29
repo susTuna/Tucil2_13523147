@@ -1,0 +1,34 @@
+/* QuadTree Header File */
+#ifndef QUADTREE_HPP
+#define QUADTREE_HPP
+
+#include "errormethod.hpp"
+
+using namespace std;
+
+class QuadTree{
+    private:
+        struct Node{
+            cv::Rect region;
+            cv::Scalar avgColor;
+            Node* children[4];
+
+            Node(cv::Rect region);
+            ~Node();
+        };
+
+        Node* root;
+        int minBlockSize;
+        double varThreshold;
+        const ErrorMethod* errorMethod;
+
+        void subdivide(Node* node, const cv::Mat& image);
+        void normalizeColor(Node* node, cv::Mat& image);
+    public:
+        QuadTree();
+        ~QuadTree();
+        void buildTree(const cv::Mat& image, const ErrorMethod* method, double threshold, int minSize);
+        void reconstructImg(cv::Mat& output);    
+};
+
+#endif //QUADTREE_HPP
