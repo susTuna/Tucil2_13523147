@@ -8,7 +8,7 @@ using namespace std;
 
 class MAD: public ErrorMethod{
     public:
-        virtual double calculateError(const cv::Mat& block) const override;
+        double calculateError(const cv::Mat& block) const override;
 };
 
 #endif //MAD_HPP

@@ -8,7 +8,7 @@ using namespace std;
 
 class Variance : public ErrorMethod{
     public:
-        virtual double calculateError(const cv::Mat& block) const override;
+        double calculateError(const cv::Mat& block) const override;
 };
 
 #endif //VARIANCE_HPP
