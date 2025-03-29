@@ -28,7 +28,8 @@ class QuadTree{
         QuadTree();
         ~QuadTree();
         void buildTree(const cv::Mat& image, const ErrorMethod* method, double threshold, int minSize);
-        void reconstructImg(cv::Mat& output);    
+        void reconstructNode(Node* node, cv::Mat& image);
+        void reconstructImg(cv::Mat& output); 
 };
 
 #endif //QUADTREE_HPP
