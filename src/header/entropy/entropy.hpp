@@ -4,8 +4,6 @@
 
 #include "errormethod.hpp"
 
-using namespace std;
-
 class Entropy: public ErrorMethod{
     public:
         double calculateEntropy(const cv::Mat& channel) const;

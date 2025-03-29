@@ -4,8 +4,6 @@
 
 #include "errormethod.hpp"
 
-using namespace std;
-
 class QuadTree{
     private:
         struct Node{

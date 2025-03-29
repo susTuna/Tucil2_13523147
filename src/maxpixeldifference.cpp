@@ -1,7 +1,5 @@
 #include "maxpixeldifference.hpp"
 
-using namespace std;
-
 double MPD::calculateError(const cv::Mat& block) const {
     cv::Mat channels[3]; // channel BGR
     cv::split(block, channels);

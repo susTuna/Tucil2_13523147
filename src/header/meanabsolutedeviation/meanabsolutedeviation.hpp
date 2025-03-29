@@ -4,8 +4,6 @@
 
 #include "errormethod.hpp"
 
-using namespace std;
-
 class MAD: public ErrorMethod{
     public:
         double calculateError(const cv::Mat& block) const override;

@@ -1,7 +1,5 @@
 #include "variance.hpp"
 
-using namespace std;
-
 double Variance::calculateError(const cv::Mat& block) const {
     cv::Scalar mean, stddev;
     cv::meanStdDev(block, mean, stddev);

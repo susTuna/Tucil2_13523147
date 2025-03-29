@@ -1,7 +1,5 @@
 #include "entropy.hpp"
 
-using namespace std;
-
 double Entropy::calculateEntropy(const cv::Mat& channel) const {
     vector<int> histogram(256, 0);
     int totalPixels = channel.rows * channel.cols;
