@@ -43,8 +43,7 @@ string IOHandler::getOutputPath(){
 }
 
 ErrorMethod* IOHandler::chooseErrorMethod(int choice){
-    switch (choice)
-    {
+    switch (choice){
     case 1: return new Variance();
     case 2: return new MAD();
     case 3: return new MPD();
