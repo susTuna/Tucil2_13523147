@@ -2,7 +2,7 @@
 #ifndef QUADTREE_HPP
 #define QUADTREE_HPP
 
-#include "errormethod.hpp"
+#include "errormethod/errormethod.hpp"
 
 class QuadTree{
     private:

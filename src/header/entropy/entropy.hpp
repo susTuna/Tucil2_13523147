@@ -2,7 +2,7 @@
 #ifndef ENTROPY_HPP
 #define ENTROPY_HPP
 
-#include "errormethod.hpp"
+#include "errormethod/errormethod.hpp"
 
 class Entropy: public ErrorMethod{
     public:

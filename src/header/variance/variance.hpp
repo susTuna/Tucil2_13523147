@@ -2,7 +2,7 @@
 #ifndef VARIANCE_HPP
 #define VARIANCE_HPP
 
-#include "errormethod.hpp"
+#include "errormethod/errormethod.hpp"
 
 class Variance : public ErrorMethod{
     public:

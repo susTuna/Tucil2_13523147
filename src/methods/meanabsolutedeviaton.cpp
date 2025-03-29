@@ -1,4 +1,4 @@
-#include "meanabsolutedeviation.hpp"
+#include "meanabsolutedeviation/meanabsolutedeviation.hpp"
 
 double MAD::calculateError(const cv::Mat& block) const{
     cv::Scalar mean = cv::mean(block);

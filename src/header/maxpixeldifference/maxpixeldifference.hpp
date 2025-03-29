@@ -2,7 +2,7 @@
 #ifndef MPD_HPP
 #define MPD_HPP
 
-#include "errormethod.hpp"
+#include "errormethod/errormethod.hpp"
 
 class MPD: public ErrorMethod{
     public:

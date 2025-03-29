@@ -1,4 +1,4 @@
-#include "variance.hpp"
+#include "variance/variance.hpp"
 
 double Variance::calculateError(const cv::Mat& block) const {
     cv::Scalar mean, stddev;

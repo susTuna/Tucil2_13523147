@@ -2,10 +2,10 @@
 #ifndef IOHANDLER_HPP
 #define IOHANDLER_HPP
 
-#include "variance.hpp"
-#include "meanabsolutedeviation.hpp"
-#include "maxpixeldifference.hpp"
-#include "entropy.hpp"
+#include "variance/variance.hpp"
+#include "meanabsolutedeviation/meanabsolutedeviation.hpp"
+#include "maxpixeldifference/maxpixeldifference.hpp"
+#include "entropy/entropy.hpp"
 
 class IOHandler{
     public:

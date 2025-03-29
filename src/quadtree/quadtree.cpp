@@ -1,4 +1,4 @@
-#include "quadtree.hpp"
+#include "quadtree/quadtree.hpp"
 
 int QuadTree::Node::nodeCount = 0;
 

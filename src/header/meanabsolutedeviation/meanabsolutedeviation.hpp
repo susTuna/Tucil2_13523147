@@ -2,7 +2,7 @@
 #ifndef MAD_HPP
 #define MAD_HPP
 
-#include "errormethod.hpp"
+#include "errormethod/errormethod.hpp"
 
 class MAD: public ErrorMethod{
     public:

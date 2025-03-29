@@ -1,4 +1,4 @@
-#include "entropy.hpp"
+#include "entropy/entropy.hpp"
 
 double Entropy::calculateEntropy(const cv::Mat& channel) const {
     vector<int> histogram(256, 0);
