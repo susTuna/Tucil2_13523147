@@ -6,8 +6,7 @@
 
 class Entropy: public ErrorMethod{
     public:
-        double calculateEntropy(const cv::Mat& channel) const;
-        double calculateError(const cv::Mat& block) const override;
+        double calculateError(FIBITMAP* image, int x, int y, int width, int height) const override;
 };
 
 #endif //ENTROPY_HPP

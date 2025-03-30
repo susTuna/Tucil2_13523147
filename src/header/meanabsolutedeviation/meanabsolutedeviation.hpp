@@ -6,7 +6,7 @@
 
 class MAD: public ErrorMethod{
     public:
-        double calculateError(const cv::Mat& block) const override;
+        double calculateError(FIBITMAP* image, int x, int y, int width, int height) const override;
 };
 
 #endif //MAD_HPP
