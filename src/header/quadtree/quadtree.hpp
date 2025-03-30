@@ -15,7 +15,7 @@ class QuadTree{
 
             Node(int x, int y, int width, int height, int depth);
             ~Node();
-            bool leaf;
+            bool leaf = false;
         };
 
         Node* root;
@@ -32,7 +32,7 @@ class QuadTree{
         ~QuadTree();
 
         void buildTree(FIBITMAP* image, const ErrorMethod* method, double threshold, int minSize);
-        void reconstructImg(FIBITMAP* output);
+        void reconstructImg(FIBITMAP*& output);
         int getDepth() const;
         int getNodesCount() const;
 };

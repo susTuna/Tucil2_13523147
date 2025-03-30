@@ -1,6 +1,7 @@
 #include "quadtree/quadtree.hpp"
 
 int QuadTree::Node::nodeCount = 0;
+int QuadTree::Node::maxDepth = 0;
 
 QuadTree::Node::Node(int x, int y, int width, int height, int depth) : x(x), y(y), width(width), height(height), depth(depth){
     for (int i = 0; i < 4 ; ++i) children[i] = nullptr;
@@ -32,8 +33,8 @@ void QuadTree::subdivide(Node* node, FIBITMAP* image){
         return;
     }
 
-    int halfWidth = node->width / 2;
-    int halfHeight = node->height / 2;
+    int halfWidth = (node->width + 1) / 2;
+    int halfHeight = (node->height + 1) / 2;
 
     /* Divide */
     node->children[0] = new Node(node->x, node->y, halfWidth, halfHeight, node->depth + 1);
@@ -98,11 +99,26 @@ void QuadTree::reconstructNode(Node* node, FIBITMAP* image){
     }
 }
 
-void QuadTree::reconstructImg(FIBITMAP* output){
-    if (!root) return;
-    output = FreeImage_Allocate(root->width, root->height, 24);
-    reconstructNode(root, output);
+void QuadTree::reconstructImg(FIBITMAP*& outputImg) {
+    if (!root) {
+        cerr << "❌ Error: QuadTree root is null!\n\n";
+        return;
+    }
+
+    if (root->width <= 0 || root->height <= 0) {
+        cerr << "❌ Error: Invalid image dimensions (" << root->width << "x" << root->height << ")\n\n";
+        return;
+    }
+
+    outputImg = FreeImage_Allocate(root->width, root->height, 24);
+    if (!outputImg) {
+        cerr << "❌ Failed to allocate output image!\n\n";
+        return;
+    }
+
+    reconstructNode(root, outputImg);
 }
+
 
 int QuadTree::getDepth() const{
     return Node::maxDepth;
