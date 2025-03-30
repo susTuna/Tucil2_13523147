@@ -3,13 +3,13 @@
 #define IMAGELOADER_HPP
 
 #include <iostream>
-#include <opencv2/opencv.hpp>
+#include <FreeImage.h>
 
 using namespace std;
 
 class ImageLoader{
     public:
-        static cv::Mat loadImage(const string& loadPath);
+        static FIBITMAP* loadImage(const string loadPath);
 };
 
 #endif //IMAGELOADER_HPP
