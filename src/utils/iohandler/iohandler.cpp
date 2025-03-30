@@ -1,5 +1,4 @@
 #include "iohandler/iohandler.hpp"
-#include <limits>
 
 string IOHandler::getImagePath(const string& prompt){
     string path;
@@ -50,4 +49,19 @@ ErrorMethod* IOHandler::chooseErrorMethod(int choice){
     case 4: return new Entropy();
     default: return nullptr;
     }
+}
+
+FREE_IMAGE_FORMAT IOHandler::getImageFormat(const string& filename){
+    string ext = filesystem::path(filename).extension().string();
+
+    transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+    if (ext == ".png") return FIF_PNG;
+    if (ext == ".jpg" || ext == ".jpeg") return FIF_JPEG;
+    if (ext == ".bmp") return FIF_BMP;
+    if (ext == ".tiff") return FIF_TIFF;
+    if (ext == ".gif") return FIF_GIF;
+    if (ext == ".tga") return FIF_TARGA;
+
+    return FIF_UNKNOWN;
 }
