@@ -1,30 +1,29 @@
 #include "entropy/entropy.hpp"
 
-double Entropy::calculateEntropy(const cv::Mat& channel) const {
-    vector<int> histogram(256, 0);
-    int totalPixels = channel.rows * channel.cols;
+double Entropy::calculateError(FIBITMAP* image, int x, int y, int width, int height) const{
+    vector<int> histR(256,0), histG(256,0), histB(256,0);
+    double entropyR, entropyG, entropyB, probR, probG, probB = 0;
+    int pixels = width * height;
+    RGBQUAD color;
 
-    for (int i=0; i < channel.total(); ++i){
-        histogram[channel.data[i]]++;
-    }
-
-    double entropy = 0.0;
-
-    /* 𝐻_𝑐 = −𝑁_∑_𝑖=1 𝑃_𝑐(𝑖) * 𝑙𝑜𝑔2(𝑃_𝑐(𝑖)) */
-    for (int count : histogram){
-        if(count > 0){
-            double prob = static_cast<double>(count) / totalPixels;
-            entropy -= prob * log2(prob);
+    for (int i = 0; i < height; ++i){
+        for(int j = 0; j < width ; ++j){
+            if (FreeImage_GetPixelColor(image, x + j, y + i, &color)){
+                ++histR[color.rgbRed], ++histG[color.rgbGreen], ++histB[color.rgbBlue];
+            }
         }
     }
 
-    return entropy;
-}
+    for (int i = 0; i < 256; ++i){
+        probR = (double)histR[i] / pixels;
+        probG = (double)histG[i] / pixels;
+        probB = (double)histB[i] / pixels;
 
-double Entropy::calculateError(const cv::Mat& block) const {
-    vector<cv::Mat> channel;
-    cv::split(block, channel);
-
-    /* 𝐻_𝐵𝐺𝑅 = (𝐻_𝐵 + 𝐻_𝐺 + 𝐻_𝑅) / 3 */
-    return (calculateEntropy(channel[0]) + calculateEntropy(channel[1]) + calculateEntropy(channel[2])) / 3.0;
+        if (probR > 0) entropyR -= probR * log2(probR);
+        if (probG > 0) entropyG -= probG * log2(probG);
+        if (probB > 0) entropyB -= probB * log2(probB);
+    }
+    
+    /* 𝐻_𝑅𝐺𝐵 = (𝐻_𝑅 + 𝐻_𝐺 + 𝐻_𝐵) / 3 */
+    return (entropyR + entropyG + entropyB) / 3.0;
 }

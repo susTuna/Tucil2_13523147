@@ -1,20 +1,19 @@
 #include "maxpixeldifference/maxpixeldifference.hpp"
 
-double MPD::calculateError(const cv::Mat& block) const {
-    cv::Mat channels[3]; // channel BGR
-    cv::split(block, channels);
+double MPD::calculateError(FIBITMAP* image, int x, int y, int width, int height) const{
+    double maxR, maxG, maxB, minR, minG, minB = 0;
+    int pixels = width * height;
+    RGBQUAD color;
 
-    double minVal, maxVal;
-    double maxDiff = 0.0;
-
-    for (int c = 0; c < 3; ++c){
-        cv::minMaxLoc(channels[c], &minVal, &maxVal);
-
-        /* 𝐷_𝑐 = 𝑚𝑎𝑥(𝑃_𝑖,𝑐) − 𝑚𝑖𝑛(𝑃_𝑖,𝑐) */
-        double diff = maxVal - minVal;
-        maxDiff += diff;
+    for (int i = 0; i < height; ++i){
+        for(int j = 0; j < width ; ++j){
+            if (FreeImage_GetPixelColor(image, x + j, y + i, &color)){
+                maxR = max(maxR, (double)color.rgbRed), maxG = max(maxG, (double)color.rgbGreen), maxB = max(maxB, (double)color.rgbBlue);
+                minR = min(minR, (double)color.rgbRed), minG = min(minG, (double)color.rgbGreen), minB = min(minB, (double)color.rgbBlue);
+            }
+        }
     }
 
-    /* 𝐷_𝐵𝐺𝑅 = (𝐷_𝐵 + 𝐷_𝐺 + 𝐷_𝑅) / 3 */
-    return maxDiff / 3.0;
+    /* 𝐷_𝑅𝐺𝐵 = (𝐷_𝑅 + 𝐷_𝐺 + 𝐷_𝐵) / 3 */
+    return (maxR - minR + maxG - minG + maxB - minB) / 3.0;
 }

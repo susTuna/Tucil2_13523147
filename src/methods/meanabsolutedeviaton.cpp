@@ -1,11 +1,30 @@
 #include "meanabsolutedeviation/meanabsolutedeviation.hpp"
 
-double MAD::calculateError(const cv::Mat& block) const{
-    cv::Scalar mean = cv::mean(block);
-    cv::Mat absDiff;
-    cv::absdiff(block, mean, absDiff);
-    cv::Scalar mad = cv::mean(absDiff);
+double MAD::calculateError(FIBITMAP* image, int x, int y, int width, int height) const {
+    double sumR, sumG, sumB, meanR, meanG, meanB, madR, madG, madB = 0;
+    int pixels = width * height;
+    RGBQUAD color;
 
-    /* 𝑀𝐴𝐷_𝐵𝐺𝑅 = (𝑀𝐴𝐷_𝐵 + 𝑀𝐴𝐷_𝐺 + 𝑀𝐴𝐷_𝑅) / 3 */
-    return (mad[0] + mad[1] + mad[2]) / 3.0;
+    for (int i = 0; i < height; ++i){
+        for(int j = 0; j < width ; ++j){
+            if (FreeImage_GetPixelColor(image, x + j, y + i, &color)){
+                sumR += color.rgbRed, sumG += color.rgbGreen, sumB += color.rgbBlue;
+            }
+        }
+    }
+
+    meanR = sumR / pixels, meanG = sumG / pixels, meanB = sumB / pixels;
+
+    for (int i = 0; i < height; ++i){
+        for(int j = 0; j < width ; ++j){
+            if (FreeImage_GetPixelColor(image, x + j, y + i, &color)){
+                madR += fabs(color.rgbRed - meanR), madG += fabs(color.rgbGreen - meanG), madB += fabs(color.rgbBlue - meanB);
+            }
+        }
+    }
+
+    madR /= pixels, madG /= pixels, madB /= pixels;
+
+    /* 𝑀𝐴𝐷_𝑅𝐺𝐵 = (𝑀𝐴𝐷_𝑅 + 𝑀𝐴𝐷_𝐺 + 𝑀𝐴𝐷_𝐵) / 3 */
+    return (madR + madG + madB) / 3.0;
 }
