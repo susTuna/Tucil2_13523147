@@ -7,14 +7,15 @@
 class QuadTree{
     private:
         struct Node{
-            cv::Rect region;
-            cv::Scalar avgColor;
+            int x, y, width, height, depth;
+            RGBQUAD avgColor;
             Node* children[4];
-            int depth;
             static int nodeCount;
+            static int maxDepth;
 
-            Node(cv::Rect region, int depth);
+            Node(int x, int y, int width, int height, int depth);
             ~Node();
+            bool leaf;
         };
 
         Node* root;
@@ -22,16 +23,18 @@ class QuadTree{
         double varThreshold;
         const ErrorMethod* errorMethod;
 
-        void subdivide(Node* node, const cv::Mat& image);
-        void normalizeColor(Node* node, cv::Mat& image);
+        void subdivide(Node* node, FIBITMAP* image);
+        RGBQUAD calculateAverageColor(FIBITMAP* image, int x, int y, int width, int height) const;
+        void reconstructNode(Node* node, FIBITMAP* image);
+
     public:
         QuadTree();
         ~QuadTree();
-        void buildTree(const cv::Mat& image, const ErrorMethod* method, double threshold, int minSize);
-        void reconstructNode(Node* node, cv::Mat& image);
-        void reconstructImg(cv::Mat& output);
-        int getDepth();
-        int getNodesCount();
+
+        void buildTree(FIBITMAP* image, const ErrorMethod* method, double threshold, int minSize);
+        void reconstructImg(FIBITMAP* output);
+        int getDepth() const;
+        int getNodesCount() const;
 };
 
-#endif //QUADTREE_HPP
+#endif // QUADTREE_HPP
