@@ -1,7 +1,7 @@
 #include "variance/variance.hpp"
 
 double Variance::calculateError(FIBITMAP* image, int x, int y, int width, int height) const {
-    double sumR, sumG, sumB, meanR, meanG, meanB, varR, varG, varB = 0;
+    double sumR = 0, sumG = 0, sumB = 0, meanR = 0, meanG = 0, meanB = 0, varR = 0, varG = 0, varB = 0;
     int pixels = width * height;
 
     for (int i = 0; i < height; ++i){

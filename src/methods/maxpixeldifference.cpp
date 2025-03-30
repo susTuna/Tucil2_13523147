@@ -1,7 +1,7 @@
 #include "maxpixeldifference/maxpixeldifference.hpp"
 
 double MPD::calculateError(FIBITMAP* image, int x, int y, int width, int height) const{
-    double maxR, maxG, maxB, minR, minG, minB = 0;
+    double maxR = 0, maxG = 0, maxB = 0, minR = 0, minG = 0, minB = 0;
     int pixels = width * height;
     RGBQUAD color;
 

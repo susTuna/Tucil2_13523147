@@ -2,7 +2,7 @@
 
 double Entropy::calculateError(FIBITMAP* image, int x, int y, int width, int height) const{
     vector<int> histR(256,0), histG(256,0), histB(256,0);
-    double entropyR, entropyG, entropyB, probR, probG, probB = 0;
+    double entropyR = 0, entropyG = 0, entropyB = 0, probR = 0, probG = 0, probB = 0;
     int pixels = width * height;
     RGBQUAD color;
 
