@@ -1,5 +1,4 @@
 #include <chrono>
-#include <filesystem>
 #include "quadtree/quadtree.hpp"
 #include "iohandler/iohandler.hpp"
 #include "imageloader/imageloader.hpp"
@@ -15,8 +14,9 @@ int main(){
     int minBlockSize = IOHandler::getMinBlockSize();
     string outputPath = IOHandler::getOutputPath();
     ErrorMethod* method = IOHandler::chooseErrorMethod(methodChoice);
+    FREE_IMAGE_FORMAT ext = IOHandler::getImageFormat(outputPath);
 
-    cv::Mat image = ImageLoader::loadImage(imagePath);
+    FIBITMAP* image = ImageLoader::loadImage(imagePath);
 
     QuadTree qTree;
     
@@ -26,9 +26,22 @@ int main(){
 
     chrono::duration<double> execTime = end - start;
 
-    cv::Mat outputImg;
+    FIBITMAP* outputImg = nullptr;
     qTree.reconstructImg(outputImg);
-    cv::imwrite(outputPath, outputImg);
+
+    if (!outputImg) {
+        cerr << "❌ Error: Output image is null!\n";
+    } else {
+        cout << "✅ Output Image Size: " 
+             << FreeImage_GetWidth(outputImg) << "x" 
+             << FreeImage_GetHeight(outputImg) << "\n";
+    }
+    
+    if (FreeImage_Save(ext, outputImg, outputPath.c_str(), (ext == FIF_JPEG) ? 100 : 0)) {
+        cout << "✅ Image successfully saved at " << outputPath << "\n";
+    } else {
+        cerr << "❌ Failed to save image!\n";
+    }
 
     auto originalSize = filesystem::file_size(imagePath);
     auto compressedSize = filesystem::file_size(outputPath);
@@ -48,11 +61,10 @@ int main(){
     cout << "🔢 Jumlah Simpul      : " << nodeCount << "\n";
     cout << "============================================\n";
 
-    cv::imshow("Original Image", image);
-    cv::imshow("Compressed Image", outputImg);
-    cv::waitKey(0);
-
     delete method;
+    FreeImage_Unload(image);
+    FreeImage_Unload(outputImg);
+    FreeImage_DeInitialise();
 
     return 0;
 }
