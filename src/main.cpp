@@ -28,19 +28,11 @@ int main(){
 
     FIBITMAP* outputImg = nullptr;
     qTree.reconstructImg(outputImg);
-
-    if (!outputImg) {
-        cerr << "❌ Error: Output image is null!\n";
-    } else {
-        cout << "✅ Output Image Size: " 
-             << FreeImage_GetWidth(outputImg) << "x" 
-             << FreeImage_GetHeight(outputImg) << "\n";
-    }
     
     if (FreeImage_Save(ext, outputImg, outputPath.c_str(), (ext == FIF_JPEG) ? 100 : 0)) {
-        cout << "✅ Image successfully saved at " << outputPath << "\n";
+        cout << "\n✅ Gambar berhasil disimpan di " << outputPath << "\n";
     } else {
-        cerr << "❌ Failed to save image!\n";
+        cerr << "\n❌ Gagal menyimpan gambar!\n";
     }
 
     auto originalSize = filesystem::file_size(imagePath);
