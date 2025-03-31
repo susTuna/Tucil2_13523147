@@ -30,7 +30,7 @@ cd Tucil2_13523147
   2. Extract and move the `FreeImage/Dist` folder to `C:\FreeImage\Dist`.  
 
 ## **Building the Project**
-#### **3. Generate Makefile**  
+#### **1. Generate Makefile**  
 - **Linux/macOS:**  
   ```sh
   chmod +x generate_makefile.sh
@@ -41,7 +41,7 @@ cd Tucil2_13523147
   generate_makefile.cmd
   ```
 
-#### **4. Build**  
+#### **2. Build**  
 ```sh
 make
 ```
