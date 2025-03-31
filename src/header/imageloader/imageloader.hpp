@@ -9,7 +9,7 @@ using namespace std;
 
 class ImageLoader{
     public:
-        static FIBITMAP* loadImage(const string loadPath);
+        static FIBITMAP* loadImage(const string& loadPath);
 };
 
 #endif //IMAGELOADER_HPP
