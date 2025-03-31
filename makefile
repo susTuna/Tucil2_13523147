@@ -21,8 +21,7 @@ bin/%.o: src/**/*.cpp
 	$(CXX) $(CXXFLAGS) -c $(filter %/$(notdir $*).cpp, $(SRC)) -o $@
 
 clean:
-	rm -rf $(BIN_DIR)
-	mkdir -p $(BIN_DIR)
+	find $(BIN_DIR) -type f ! -name '.gitkeep' -delete
 
 run: $(EXEC)
 	./$(EXEC)
