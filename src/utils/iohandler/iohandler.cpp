@@ -9,33 +9,33 @@ string IOHandler::getImagePath(const string& prompt){
 
 int IOHandler::getMethodChoice(){
     int choice;
-    cout << "\n🔥 Pilih metode perhitungan error:\n";
+    cout << "\nSelect an error calculation method:\n";
     cout << "1. Variance\n";
     cout << "2. Mean Absolute\n";
     cout << "3. Max Pixel Difference\n";
     cout << "4. Entropy\n";
-    cout << "Pilihan (1-4): ";
+    cout << "Choice (1-4): ";
     cin >> choice;
     return (choice >= 1 && choice <= 4) ? choice : 1;
 }
 
 double IOHandler::getVarianceThreshold(){
     double threshold;
-    cout << "\n🎯 Masukkan nilai threshold (e.g., 500.0): ";
+    cout << "\nEnter threshold value: ";
     cin >> threshold;
     return threshold;
 }
 
 int IOHandler::getMinBlockSize(){
     int blockSize;
-    cout << "\n🟦 Masukkan ukuran blok minimum: ";
+    cout << "\nEnter minimum block size: ";
     cin >> blockSize;
     return blockSize;
 }
 
 string IOHandler::getOutputPath(){
     string path;
-    cout << "\n💾 Masukkan alamat output gambar hasil: ";
+    cout << "\nEnter the output image path: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, path);
     return path;
