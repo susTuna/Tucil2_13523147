@@ -7,8 +7,8 @@ The core algorithm follows the **Divide and Conquer** paradigm, partitioning ima
 
 ## Installation  
 ### **Requirements**  
-- C++ Compiler (`g++` or `clang++`)
-- FreeImage Library ([Download Here](https://freeimage.sourceforge.io))
+- C++ Compiler (`g++` or `mingw`)
+- FreeImage Library https://freeimage.sourceforge.io
 
 ### **Setup**  
 #### **1. Clone the Repository**  
@@ -25,26 +25,20 @@ cd Tucil2_13523147
   ```sh
   brew install freeimage
   ```
-- **Windows:**  
-  1. Download **FreeImage** from [this link](https://freeimage.sourceforge.io/download.html).  
-  2. Extract and move the `FreeImage/Dist` folder to `C:\FreeImage\Dist`.  
+- **Windows:**
+  Dependency already located in `src/lib`
+  
 
 ## **Building the Project**
-#### **1. Generate Makefile**  
-- **Linux/macOS:**  
+#### **1. Build**  
+- **Linux and MacOS:**
   ```sh
-  chmod +x generate_makefile.sh
-  ./generate_makefile.sh
+  make linux
   ```
-- **Windows:**  
+- **Windows:**
   ```sh
-  generate_makefile.cmd
+  make windows
   ```
-
-#### **2. Build**  
-```sh
-make
-```
 
 ## **Running the Program**
 - **Linux/macOS:**  
