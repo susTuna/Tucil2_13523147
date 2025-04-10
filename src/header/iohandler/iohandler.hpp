@@ -16,6 +16,7 @@ class IOHandler{
         static int getMethodChoice();
         static double getVarianceThreshold();
         static int getMinBlockSize();
+        static float getTargetRatio();
         static string getOutputPath();
         static ErrorMethod* chooseErrorMethod(int choice);
         static FREE_IMAGE_FORMAT getImageFormat(const string& filename);
