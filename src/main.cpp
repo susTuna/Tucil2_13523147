@@ -1,4 +1,6 @@
-#include "compression/compression.hpp"
+#include <chrono>
+#include "quadtree/quadtree.hpp"
+#include "iohandler/iohandler.hpp"
 #include "imageloader/imageloader.hpp"
 #include "ascii/ascii.hpp"
 
@@ -11,27 +13,40 @@ int main(){
         int methodChoice = IOHandler::getMethodChoice();
         double varianceThreshold = IOHandler::getVarianceThreshold();
         int minBlockSize = IOHandler::getMinBlockSize();
-        float targetRatio = IOHandler::getTargetRatio();
         string outputPath = IOHandler::getOutputPath();
         ErrorMethod* method = IOHandler::chooseErrorMethod(methodChoice);
         FREE_IMAGE_FORMAT ext = IOHandler::getImageFormat(outputPath);
 
         FIBITMAP* image = ImageLoader::loadImage(imagePath);
 
-        Compression compressor(image, method, ext, imagePath, outputPath, varianceThreshold, minBlockSize, targetRatio);
-        compressor.compress();
+        QuadTree qTree;
+        
+        auto start = chrono::high_resolution_clock::now();
+        qTree.buildTree(image, method, varianceThreshold, minBlockSize);
+        auto end = chrono::high_resolution_clock::now();
 
-        double originalSize = compressor.getOrigSize();
-        double compressedSize = compressor.getCompSize();
-        float compressionRatio = compressor.getCompressionRatio();
-        double execTime = compressor.getDuration();
-        int depth = compressor.getDepth();
-        int nodeCount = compressor.getNodesCount();
+        chrono::duration<double> execTime = end - start;
+
+        FIBITMAP* outputImg = nullptr;
+        qTree.reconstructImg(outputImg);
+        
+        if (FreeImage_Save(ext, outputImg, outputPath.c_str(), (ext == FIF_JPEG) ? 100 : 0)) {
+            cout << "\nImage saved successfully at " << outputPath << "\n";
+        } else {
+            throw runtime_error("Error: Failed to save the image!");
+        }
+
+        auto originalSize = filesystem::file_size(imagePath);
+        auto compressedSize = filesystem::file_size(outputPath);
+        double compressionRatio = (1.0 - (double)compressedSize / originalSize) * 100;
+
+        int depth = qTree.getDepth();
+        int nodeCount = qTree.getNodesCount();
 
         cout << "\n================================================================\n";
         cout << "Compression Complete!\n";
         cout << "================================================================\n";
-        cout << "Processing Time     : " << execTime << " seconds\n";
+        cout << "Processing Time     : " << execTime.count() << " seconds\n";
         cout << "Original Size         : " << originalSize / 1024 << " KB\n";
         cout << "Compressed Size       : " << compressedSize / 1024 << " KB\n";
         cout << "Compression Percentage: " << compressionRatio << "%\n";
@@ -41,7 +56,9 @@ int main(){
 
         delete method;
         FreeImage_Unload(image);
+        FreeImage_Unload(outputImg);
         image = nullptr;
+        outputImg = nullptr;
         FreeImage_DeInitialise();
 
     } catch (const exception& e){

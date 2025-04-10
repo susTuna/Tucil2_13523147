@@ -10,9 +10,7 @@ FIBITMAP* ImageLoader::loadImage(const string& loadPath) {
 
     if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
         FIBITMAP* image = FreeImage_Load(fif, loadPath.c_str());
-        if (!image) {
-            throw runtime_error("Failed to load image: " + loadPath);
-        }
+        if (!image) throw runtime_error("Failed to load image: " + loadPath);
 
         if (FreeImage_GetBPP(image) != 24) {
             FIBITMAP* temp = FreeImage_ConvertTo24Bits(image);
