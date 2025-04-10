@@ -33,6 +33,13 @@ int IOHandler::getMinBlockSize(){
     return blockSize;
 }
 
+float IOHandler::getTargetRatio(){
+    float ratio;
+    cout << "\nEnter target compression ratio (0.0 - 100.0): ";
+    cin >> ratio;
+    return (ratio >= 0.0f && ratio <= 100.0f) ? ratio : 0.0f;
+}
+
 string IOHandler::getOutputPath(){
     string path;
     cout << "\nEnter the output image path: ";
