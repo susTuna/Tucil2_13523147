@@ -33,14 +33,16 @@ void QuadTree::subdivide(Node* node, FIBITMAP* image){
         return;
     }
 
-    int halfWidth = (node->width + 1) / 2;
-    int halfHeight = (node->height + 1) / 2;
+    int width = node->width;
+    int height = node->height;
+    int halfWidth = width / 2;
+    int halfHeight = height / 2;
 
     /* Divide */
     node->children[0] = new Node(node->x, node->y, halfWidth, halfHeight, node->depth + 1);
-    node->children[1] = new Node(node->x + halfWidth, node->y, halfWidth, halfHeight, node->depth + 1);
-    node->children[2] = new Node(node->x, node->y + halfHeight, halfWidth, halfHeight, node->depth + 1);
-    node->children[3] = new Node(node->x + halfWidth, node->y + halfHeight, halfWidth, halfHeight, node->depth + 1);
+    node->children[1] = new Node(node->x + halfWidth, node->y, node->width - halfWidth, halfHeight, node->depth + 1);
+    node->children[2] = new Node(node->x, node->y + halfHeight, halfWidth, node-> height - halfHeight, node->depth + 1);
+    node->children[3] = new Node(node->x + halfWidth, node->y + halfHeight, node->width - halfWidth, node->height - halfHeight, node->depth + 1);
     
     /* Recursion */
     for (int i = 0; i < 4; ++i){
@@ -85,7 +87,7 @@ void QuadTree::buildTree(FIBITMAP* image, const ErrorMethod* method, double thre
 
 void QuadTree::reconstructNode(Node* node, FIBITMAP* image){
     if (!node) return;
-
+    
     if (node->leaf){
         for(int i = 0; i < node->height; ++i){
             for(int j = 0; j < node->width; ++j){
@@ -101,19 +103,16 @@ void QuadTree::reconstructNode(Node* node, FIBITMAP* image){
 
 void QuadTree::reconstructImg(FIBITMAP*& outputImg) {
     if (!root) {
-        cerr << "❌ Error: QuadTree root is null!\n\n";
-        return;
+        throw runtime_error("QuadTree root is null!");
     }
 
     if (root->width <= 0 || root->height <= 0) {
-        cerr << "❌ Error: Invalid image dimensions (" << root->width << "x" << root->height << ")\n\n";
-        return;
+        throw runtime_error("Invalid image dimensions!");
     }
 
     outputImg = FreeImage_Allocate(root->width, root->height, 24);
     if (!outputImg) {
-        cerr << "❌ Failed to allocate output image!\n\n";
-        return;
+        throw runtime_error("Failed to allocate output image!");
     }
 
     reconstructNode(root, outputImg);
