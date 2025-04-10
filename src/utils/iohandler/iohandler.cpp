@@ -11,7 +11,7 @@ int IOHandler::getMethodChoice(){
     int choice;
     cout << "\nSelect an error calculation method:\n";
     cout << "1. Variance\n";
-    cout << "2. Mean Absolute\n";
+    cout << "2. Mean Absolute Deviation\n";
     cout << "3. Max Pixel Difference\n";
     cout << "4. Entropy\n";
     cout << "Choice (1-4): ";
