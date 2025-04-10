@@ -10,11 +10,11 @@ string IOHandler::getImagePath(const string& prompt){
 int IOHandler::getMethodChoice(){
     int choice;
     cout << "\nSelect an error calculation method:\n";
-    cout << "1. Variance\n";
-    cout << "2. Mean Absolute Deviation\n";
-    cout << "3. Max Pixel Difference\n";
-    cout << "4. Entropy\n";
-    cout << "Choice (1-4): ";
+    cout << "1. Variance (0 - 65025)\n";
+    cout << "2. Mean Absolute Deviation (0 - 255)\n";
+    cout << "3. Max Pixel Difference (0 - 255)\n";
+    cout << "4. Entropy (0 - 8)\n";
+    cout << "Choice (1 - 4): ";
     cin >> choice;
     return (choice >= 1 && choice <= 4) ? choice : 1;
 }

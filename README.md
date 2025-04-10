@@ -45,11 +45,23 @@ cd Tucil2_13523147
   ```sh
   cd bin
   ./YuukaPress
+  Enter the image file path: /foo/bar/img.(jpg/png) #absolute path
+  Enter the image file path: ../foo/img.(png/jpg)  #relative path
+  Enter threshold value: 65025 #has to be in range
+  Enter minimum block size: 69
+  Enter the output image path: /foo/bar/out.(jpg/png) #absolute path
+  Enter the output image path: ../foo/out.(png/jpg)  #relative path
   ```
 - **Windows (CMD/PowerShell):**  
-  ```cmd
+  ```sh
   cd bin
   YuukaPress.exe
+  Enter the image file path: C:/foo/bar/img.(jpg/png) #absolute path
+  Enter the image file path: ../foo/img.(png/jpg)  #relative path
+  Enter threshold value: 65025 #has to be in range
+  Enter minimum block size: 69
+  Enter the output image path: C:/foo/bar/out.(jpg/png) #absolute path
+  Enter the output image path: ../foo/out.(png/jpg)  #relative path
   ```
 - **Windows (Explorer):**  
   Open the `bin` folder and double-click `YuukaPress.exe`.  
