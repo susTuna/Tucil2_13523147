@@ -1,4 +1,1 @@
-bin/*
-!bin/.gitkeep
-!bin/FreeImage.dll
-.vscode
+./vscode
