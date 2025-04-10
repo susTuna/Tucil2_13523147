@@ -1,27 +1,26 @@
-# Auto-generated Makefile
-
 CXX = g++
+MINGW =  x86_64-w64-mingw32
 CXXFLAGS = -Wall -Wextra -O2 -std=c++17 -I ./src/header/
-LDFLAGS = -L/usr/local/lib -lfreeimage
-BIN_DIR = bin
+LDFLAGS = -lfreeimage 
+LWINDOWS = -IL./src/lib/
+SRC = src/quadtree/quadtree.cpp src/main.cpp src/methods/maxpixeldifference.cpp src/methods/entropy.cpp src/methods/meanabsolutedeviaton.cpp src/methods/variance.cpp src/utils/iohandler/iohandler.cpp src/utils/imageloader/imageloader.cpp src/utils/ascii/ascii.cpp src/compression/compression.cpp
+BIN = ./bin
 
-SRC = src/quadtree/quadtree.cpp src/main.cpp src/methods/maxpixeldifference.cpp src/methods/entropy.cpp src/methods/meanabsolutedeviaton.cpp src/methods/variance.cpp src/utils/iohandler/iohandler.cpp src/utils/imageloader/imageloader.cpp src/utils/ascii/ascii.cpp
-OBJ = bin/quadtree.o bin/main.o bin/maxpixeldifference.o bin/entropy.o bin/meanabsolutedeviaton.o bin/variance.o bin/iohandler.o bin/imageloader.o bin/ascii.o
-EXEC = bin/YuukaPress
+WINDOWS = YuukaPress
+LINUX = YuukaPress
 
-all: $(BIN_DIR) $(EXEC)
+windows:
+	mkdir -p $(BIN) 
+	$(MINGW)-$(CXX) $(CXXFLAGS) -o $(BIN)/$(WINDOWS).exe $(SRC) $(LWINDOWS) $(LDFLAGS)
 
-$(BIN_DIR):
-	mkdir -p $(BIN_DIR)
+linux: 
+	mkdir -p $(BIN)
+	$(CXX) $(CXXFLAGS) -o $(BIN)/$(LINUX) $(SRC) $(LDFLAGS)
 
-$(EXEC): $(OBJ)
-	$(CXX) $(CXXFLAGS) $(OBJ) -o $(EXEC) $(LDFLAGS)
-
-bin/%.o: src/**/*.cpp
-	$(CXX) $(CXXFLAGS) -c $(filter %/$(notdir $*).cpp, $(SRC)) -o $@
+build: windows linux
 
 clean:
-	find $(BIN_DIR) -type f ! -name '.gitkeep' -delete
+	rm -rf $(BIN)/*.exe
+	rm -rf $(BIN)/$(LINUX)
 
-run: $(EXEC)
-	./$(EXEC)
+all: build
